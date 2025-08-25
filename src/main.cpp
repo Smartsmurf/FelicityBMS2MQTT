@@ -21,7 +21,7 @@ void setup() {
 
   if (ssid != "") {
     WiFi.begin(ssid.c_str(), password.c_str());
-    Serial.print("Verbinde mit WLAN: ");
+    Serial.print("Trying to connect to SSID: ");
     Serial.println(ssid);
 
     unsigned long start = millis();
@@ -31,11 +31,12 @@ void setup() {
     }
 
     if (WiFi.status() == WL_CONNECTED) {
-      Serial.println("\n✅ WLAN verbunden!");
+      Serial.println("\n✅ WIFI connected.");
       Serial.print("IP: ");
       Serial.println(WiFi.localIP());
       startWebServer();
 
+      // TODO: use configured ports - as soon as HW project catches up ;)
       bms = new FelicityBMS(RS485_RX_PIN, RS485_TX_PIN, batteryCount);
       bmsQueue = xQueueCreate(10, sizeof(BmsMessage));
       bms->SetQueue(bmsQueue);
@@ -49,11 +50,11 @@ void setup() {
 
       return;
     } else {
-      Serial.println("\n⚠️ WLAN-Verbindung fehlgeschlagen.");
+      Serial.println("\n⚠️ WIFI connection failed.");
     }
   }
 
-  // Kein WLAN → Starte Konfigurations-AP
+  // no WIFI - run config AP
   startConfigPortal();
 
 }
@@ -63,19 +64,3 @@ void loop() {
   server.handleClient();
 
 }
-
-/*
-void writeLog(const char *format, ...)
-{
-  char msg[100];
-  va_list args;
-
-  va_start(args, format);
-  vsnprintf(msg, sizeof(msg), format, args); // do check return value
-  va_end(args);
-
-  // write msg to the log
-  DBG_PRINTLN(msg);
-//  DBG_WEBLN(msg);
-}
-*/
