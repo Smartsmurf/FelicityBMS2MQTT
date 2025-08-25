@@ -4,9 +4,6 @@
 #include "felicity.h"
 #include "main.h"
 #include "preferences.h"
-// #include "settings.h"
-// extern Settings _settings;
-
 
 char *mqtt_buildtopic(char *buffer, int device_id, const char *path, const char *optindex = "")
 {
@@ -38,8 +35,6 @@ void mqtt_task(void *param) {
     if (!mqttclient.connected() && mqttServer.length() > 0){
       writeLog("[MQTT] MQTT client state: %d", mqttclient.state());
 
-//      if (mqttclient.connect(mqttClientId, mqttUser.c_str(), mqttPass.c_str(), 
-//        (mqtt_buildtopic(mqttbuff, 0, "Alive")), 0, true, "false", true))
       if (mqttclient.connect(mqttClientId, mqttUser.c_str(), mqttPass.c_str()) ){
         writeLog("[MQTT] MQTT client connected.\n");
       }
