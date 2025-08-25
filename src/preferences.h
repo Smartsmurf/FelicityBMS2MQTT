@@ -1,0 +1,13 @@
+#ifndef FELICITY_PREFS_H
+#define FELICITY_PREFS_H
+
+#include <Arduino.h>
+#include <Preferences.h>
+
+extern String ssid, password, mqttServer, mqttUser, mqttPass, mqttTopic, mqttDevicename;
+extern int rxPin, txPin, rtsPin, batteryCount, mqttPort;
+extern Preferences prefs;
+
+void loadSettings();
+
+#endif
