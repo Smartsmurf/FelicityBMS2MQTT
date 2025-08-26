@@ -1,4 +1,9 @@
-
+//
+// This is part of the FelicityBMS2MQTT project
+//
+// https://github.com/Smartsmurf/FelicityBMS2MQTT
+// 
+// 
 #include <Arduino.h>
 #include <WiFi.h>
 #include <WebServer.h>

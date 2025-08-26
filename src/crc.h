@@ -1,3 +1,9 @@
+//
+// This is part of the FelicityBMS2MQTT project
+//
+// https://github.com/Smartsmurf/FelicityBMS2MQTT
+// 
+// 
 #ifndef MODBUS_CRC_H
 #define MODBUS_CRC_H
 

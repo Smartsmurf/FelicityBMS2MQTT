@@ -1,3 +1,9 @@
+//
+// This is part of the FelicityBMS2MQTT project
+//
+// https://github.com/Smartsmurf/FelicityBMS2MQTT
+// 
+// 
 #include <WiFi.h>
 #include <PubSubClient.h>
 

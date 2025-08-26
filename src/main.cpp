@@ -1,3 +1,9 @@
+//
+// This is part of the FelicityBMS2MQTT project
+//
+// https://github.com/Smartsmurf/FelicityBMS2MQTT
+// 
+// 
 #include <Arduino.h>
 #include <WiFi.h>
 #include <WebServer.h>
@@ -11,6 +17,7 @@
 
 FelicityBMS * bms;
 QueueHandle_t bmsQueue;
+unsigned long lastWifiCheck = 0;
 
 void setup() {
 
@@ -21,6 +28,7 @@ void setup() {
 
   if (ssid != "") {
     WiFi.begin(ssid.c_str(), password.c_str());
+    WiFi.setAutoReconnect(true);
     Serial.print("Trying to connect to SSID: ");
     Serial.println(ssid);
 
@@ -62,5 +70,18 @@ void setup() {
 void loop() {
   
   server.handleClient();
+
+  // check WIFI state
+  unsigned long now = millis();
+  if (now - lastWifiCheck >= 10000) {
+    lastWifiCheck = now;
+
+    if (WiFi.status() != WL_CONNECTED) {
+      Serial.println("WIFI disconnected! Trying reconnect...");
+
+      WiFi.disconnect();  // sanity
+      WiFi.begin(ssid, password);
+    }
+  }
 
 }
