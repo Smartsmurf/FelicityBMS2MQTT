@@ -19,12 +19,19 @@ FelicityBMS * bms;
 QueueHandle_t bmsQueue;
 unsigned long lastWifiCheck = 0;
 
+void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info){
+    lastWifiCheck = millis();
+    WiFi.begin(ssid.c_str(), password.c_str());
+}
+
 void setup() {
 
   Serial.begin(9600);
   Serial.println("Starting up...");
 
   loadSettings();
+
+  WiFi.onEvent(WiFiStationDisconnected, WiFiEvent_t::ARDUINO_EVENT_WIFI_STA_DISCONNECTED);
 
   if (ssid != "") {
     WiFi.begin(ssid.c_str(), password.c_str());
@@ -80,7 +87,7 @@ void loop() {
       Serial.println("WIFI disconnected! Trying reconnect...");
 
       WiFi.disconnect();  // sanity
-      WiFi.begin(ssid, password);
+      WiFi.begin(ssid.c_str(), password.c_str());
     }
   }
 
