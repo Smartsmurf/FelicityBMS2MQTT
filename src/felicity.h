@@ -17,6 +17,10 @@ inline uint16_t be16(uint8_t * val) {
   return ((uint16_t)(*val++ << 8) | *val);
 }
 
+inline int be16int(uint8_t * val) {
+  return ((int)(*val++ << 8) | *val);
+}
+
 enum BmsDataType {
     BMS_TYPE_VERSION_INFO,
     BMS_TYPE_BATTERY_INFO,

@@ -178,7 +178,7 @@ void FelicityBMS::bmsTask(void *param){
       if( ReceiveAPDU(buffer, 0x30) == 0x30 ){
         pbuf = buffer;
         for( int j = 0; j < 16; j++ ){
-          msg.payload.cellInfo.cellVoltages[j] = be16(pbuf) * 0.001;
+          msg.payload.cellInfo.cellVoltages[j] = be16(pbuf) * 0.001f;
           pbuf += 2;
         }
         for( int j = 0; j < 8; j++ ){
@@ -193,10 +193,10 @@ void FelicityBMS::bmsTask(void *param){
       msg.type = BMS_TYPE_CHARGE_DISCHARGE;
       SendAPDU(sid, 3, 0x131C, 0x04);
       if( ReceiveAPDU(buffer, 0x08) == 0x08 ){
-        msg.payload.chargeDischarge.chargeVoltLimit = be16(&buffer[0]) * 0.01;
-        msg.payload.chargeDischarge.dischargeVoltLimit = be16(&buffer[2]) * 0.01;
-        msg.payload.chargeDischarge.chargeCurrentLimit = be16(&buffer[4]) * 0.1;
-        msg.payload.chargeDischarge.dischargeCurrentLimit = be16(&buffer[6]) * 0.1;
+        msg.payload.chargeDischarge.chargeVoltLimit = be16(&buffer[0]) * 0.01f;
+        msg.payload.chargeDischarge.dischargeVoltLimit = be16(&buffer[2]) * 0.01f;
+        msg.payload.chargeDischarge.chargeCurrentLimit = be16(&buffer[4]) * 0.1f;
+        msg.payload.chargeDischarge.dischargeCurrentLimit = be16(&buffer[6]) * 0.1f;
         xQueueSend(bmsQueue, &msg, portMAX_DELAY);
       }
 
@@ -215,8 +215,8 @@ void FelicityBMS::bmsTask(void *param){
         msg.payload.batteryInfo.faultBMSTemperatureHigh = (buffer[5] >> 6) & 1;
         msg.payload.batteryInfo.faultCellTemperatureHigh = (buffer[4]) & 1;
         msg.payload.batteryInfo.faultCellTemperatureLow = (buffer[4] >> 1) & 1;
-        msg.payload.batteryInfo.voltage = be16(&buffer[8]) * 0.01;
-        msg.payload.batteryInfo.current = be16(&buffer[10]) * 0.1;
+        msg.payload.batteryInfo.voltage = be16(&buffer[8]) * 0.01f;
+        msg.payload.batteryInfo.current = (int16_t)be16(&buffer[10]) * 0.1f;
         msg.payload.batteryInfo.temp = be16(&buffer[16]);
         msg.payload.batteryInfo.soc = be16(&buffer[18]);
         xQueueSend(bmsQueue, &msg, portMAX_DELAY);

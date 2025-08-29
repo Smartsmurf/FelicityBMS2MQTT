@@ -83,7 +83,9 @@ void mqtt_task(void *param) {
 //                          msg.payload.batteryInfo.temp);
             mqttclient.publish(mqtt_buildtopic(mqttbuff, msg.deviceId, "voltage"), dtostrf(msg.payload.batteryInfo.voltage, 3, 1, valuebuff));
             mqttclient.publish(mqtt_buildtopic(mqttbuff, msg.deviceId, "current"), dtostrf(msg.payload.batteryInfo.current, 3, 1, valuebuff));
-            mqttclient.publish(mqtt_buildtopic(mqttbuff, msg.deviceId, "soc"), itoa(msg.payload.batteryInfo.soc, valuebuff, 10));
+            sprintf(valuebuff, "%i ", (int)msg.payload.batteryInfo.soc);
+            mqttclient.publish(mqtt_buildtopic(mqttbuff, msg.deviceId, "soc"), valuebuff);
+//            mqttclient.publish(mqtt_buildtopic(mqttbuff, msg.deviceId, "soc"), itoa(msg.payload.batteryInfo.soc, valuebuff, 10));
             mqttclient.publish(mqtt_buildtopic(mqttbuff, msg.deviceId, "temperature"), itoa(msg.payload.batteryInfo.temp, valuebuff, 10));
             mqttclient.publish(mqtt_buildtopic(mqttbuff, msg.deviceId, "battery_charge_enable"), msg.payload.batteryInfo.batteryChargeEnable ? "true":"false");
             mqttclient.publish(mqtt_buildtopic(mqttbuff, msg.deviceId, "battery_charge_immediately"), msg.payload.batteryInfo.batteryChargeImmediately ? "true":"false");
