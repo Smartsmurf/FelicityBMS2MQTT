@@ -16,8 +16,7 @@ volatile bool systemShutdown = false;
 FelicityBMS::FelicityBMS(int rx, int tx, int num_slaves)
 {
 
-    pinMode(RS485_DE_PIN, OUTPUT);
-    pinMode(RS485_RE_PIN, OUTPUT);
+    pinMode(rtsPin, OUTPUT);
     rs485RxEnable();
 
     this->serial = new EspSoftwareSerial::UART(rx, tx, false);

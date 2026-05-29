@@ -10,6 +10,7 @@
 #include <SoftwareSerial.h>
 
 #include "crc.h"
+#include "preferences.h"
 
 extern volatile bool systemShutdown;
 
@@ -20,6 +21,9 @@ inline uint16_t be16(uint8_t * val) {
 inline int be16int(uint8_t * val) {
   return ((int)(*val++ << 8) | *val);
 }
+
+inline void rs485TxEnable() {digitalWrite(rtsPin, HIGH);}
+inline void rs485RxEnable() {digitalWrite(rtsPin, LOW);}
 
 enum BmsDataType {
     BMS_TYPE_VERSION_INFO,

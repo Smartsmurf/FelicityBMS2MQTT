@@ -52,7 +52,7 @@ void setup() {
       startWebServer();
 
       // TODO: use configured ports - as soon as HW project catches up ;)
-      bms = new FelicityBMS(RS485_RX_PIN, RS485_TX_PIN, batteryCount);
+      bms = new FelicityBMS(rxPin, txPin, batteryCount);
       bmsQueue = xQueueCreate(10, sizeof(BmsMessage));
       bms->SetQueue(bmsQueue);
 

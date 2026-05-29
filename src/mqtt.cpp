@@ -44,6 +44,7 @@ void mqtt_task(void *param) {
       if (mqttclient.connect(mqttClientId, mqttUser.c_str(), mqttPass.c_str()) ){
         writeLog("[MQTT] MQTT client connected.\n");
       }
+      mqttclient.publish(mqtt_buildtopic(mqttbuff, msg.deviceId, "status"),"online"); 
   }
 
     if (xQueueReceive(bmsQueue, &msg, portMAX_DELAY) == pdTRUE) {
